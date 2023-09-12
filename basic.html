@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>简易富文本编辑器</title>
+    <style type="text/css">
+      .btn-group {
+        margin: 15px 0;
+      }
+
+      .btn {
+        color: #494949;
+        background-color: #fff;
+        border: 1px solid #494949;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      .editor {
+        border: 1px solid #424242;
+        width: 800px;
+        height: 500px;
+        padding: 8px 12px;
+        border-radius: 6px;
+      }
+      a {
+        cursor: pointer;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="btn-group">
+      <input class="btn" type="button" value="撤销" data-commandid="undo" />
+      <input class="btn" type="button" value="恢复" data-commandid="redo" />
+      <input class="btn" type="button" value="加粗" data-commandid="bold" />
+      <input class="btn" type="button" value="倾斜" data-commandid="italic" />
+      <input class="btn" type="button" value="下划线" data-commandid="underline" />
+      <input class="btn" type="button" value="删除线" data-commandid="strikeThrough" />
+
+      <input class="btn" type="button" value="设置字体大小" data-commandid="fontSize" data-value="22" />
+      <input class="btn" type="button" value="字体背景色" data-commandid="backColor" data-value="#FFFF02" />
+      <input class="btn" type="button" value="字体颜色" data-commandid="foreColor" data-value="#FF0000"  />
+
+      <input class="btn" type="button" value="链接" data-commandid="createLink" data-value="https://www.baidu.com/"/>
+      <input class="btn" type="button" value="有序列表" data-commandid="insertOrderedList" />
+      <input class="btn" type="button" value="无序列表" data-commandid="insertUnorderedList" />
+
+      <input class="btn" type="button" value="剪切选中文字" data-commandid="cut" />
+      <input class="btn" type="button" value="复制选中文字" data-commandid="copy" />
+      <input class="btn" type="button" value="删除选中文字" data-commandid="delete" />
+
+      <input class="btn" type="button" value="清除格式" data-commandid="removeFormat" />
+    </div>
+    <div class="editor" contenteditable="true" width="800px" height="500px"></iframe>
+    <script type="text/javascript">
+      window.onload = () => {
+        const handleClick = (event) => {
+          const target = event.target
+          const { commandid, value } = target.dataset
+          document.execCommand(commandid, false, value)
+        }
+        const btnGroup = document.querySelector('.btn-group')
+        // 事件代理，给按钮父级绑定点击事件
+        btnGroup.addEventListener('click', handleClick, false)
+      }
+    </script>
+  </body>
+</html>
