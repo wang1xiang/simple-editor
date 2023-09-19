@@ -1,17 +1,21 @@
 <script setup lang="ts">
-import { tools, ToolType } from './constants'
-import userRangeSelection from './useRangeSelection';
-import { ref } from 'vue';
+import { selectionTools, tools, ToolType } from './constants'
+import userRangeSelection from './useRangeSelection'
+import { ref, onMounted } from 'vue'
+import useUnload from './useUnload';
 
 const handleClick = (item: ToolType) => {
   const { commandId, value } = item
-  // restoreSelection()
-  editorRef.value?.focus()
+  restoreSelection()
+  // editorRef.value?.focus()
   document.execCommand(commandId, false, value)
 }
 
 const editorRef = ref<HTMLDivElement>()
 const { restoreSelection } = userRangeSelection(editorRef)
+
+useUnload(editorRef)
+
 </script>
 
 <template>
@@ -24,7 +28,20 @@ const { restoreSelection } = userRangeSelection(editorRef)
       @click="handleClick(item)"
     />
   </div>
-  <div class="editor" ref="editorRef" contenteditable="true" width="800px" height="500px"></div>
+  <div
+    class="editor"
+    ref="editorRef"
+    contenteditable="true"
+    width="800px"
+    height="500px"
+  ></div>
+  <input
+    v-for="item in selectionTools"
+    class="btn"
+    type="button"
+    :value="item.label"
+    @click="item.action"
+  />
 </template>
 
 <style scoped>

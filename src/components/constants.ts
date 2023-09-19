@@ -1,6 +1,6 @@
 export type ToolType = {
-  label: string,
-  commandId: string,
+  label: string
+  commandId: string
   value?: string
 }
 
@@ -25,4 +25,33 @@ export const tools: ToolType[] = [
   { label: '删除选中文字', commandId: 'delete' },
 
   { label: '清除格式', commandId: 'removeFormat' },
+]
+
+export type SelectionToolType = {
+  label: string
+  action: () => void
+}
+const selection = window.getSelection()
+
+export const selectionTools: SelectionToolType[] = [
+  {
+    label: '获取选区',
+    action: () => {
+      console.log(selection)
+    },
+  },
+  {
+    label: '删除选区',
+    action: () => {
+      const range = selection?.getRangeAt(0) as Range
+      selection?.removeRange(range)
+    },
+  },
+  {
+    label: '获取文本内容',
+    action: () => {
+      const text = selection?.toString()
+      window.alert(text)
+    },
+  },
 ]
