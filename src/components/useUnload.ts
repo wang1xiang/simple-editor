@@ -1,4 +1,5 @@
 import { Ref, onBeforeMount, onMounted } from 'vue'
+import { DEFAULT_CONTENT } from './constants';
 
 const useUnload = (editorRef: Ref<HTMLDivElement | undefined>) => {
   
@@ -11,7 +12,7 @@ const useUnload = (editorRef: Ref<HTMLDivElement | undefined>) => {
   onBeforeMount(() => window.removeEventListener('beforeunload', saveEditor))
 
   onMounted(() => {
-    const html = localStorage.getItem('editor-content') || ''
+    const html = localStorage.getItem('editor-content') || DEFAULT_CONTENT
     editorRef.value && (editorRef.value.innerHTML = html)
   })
 }

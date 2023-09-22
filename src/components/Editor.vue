@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { selectionTools, tools, ToolType } from './constants'
 import userRangeSelection from './useRangeSelection'
-import { ref, onMounted } from 'vue'
-import useUnload from './useUnload';
+import { ref } from 'vue'
+import useUnload from './useUnload'
 
 const handleClick = (item: ToolType) => {
   const { commandId, value } = item
@@ -15,7 +15,6 @@ const editorRef = ref<HTMLDivElement>()
 const { restoreSelection } = userRangeSelection(editorRef)
 
 useUnload(editorRef)
-
 </script>
 
 <template>
@@ -35,13 +34,15 @@ useUnload(editorRef)
     width="800px"
     height="500px"
   ></div>
-  <input
-    v-for="item in selectionTools"
-    class="btn"
-    type="button"
-    :value="item.label"
-    @click="item.action"
-  />
+  <template v-for="item in selectionTools">
+    <input
+      class="btn"
+      type="button"
+      :value="item.label"
+      @click="item.action"
+    />
+    <br v-if="item.isWrapLine">
+  </template>
 </template>
 
 <style scoped>
